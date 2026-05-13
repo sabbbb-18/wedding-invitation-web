@@ -1,7 +1,6 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Eye, EyeOff, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
-import { MapPin, Calendar, Clock } from "lucide-react";
+import { Eye, EyeOff, BookOpen, MapPin, Gift, Volume2, VolumeX } from "lucide-react";
 
 // FIREBASE 
 import { initializeApp } from "firebase/app";
@@ -10,13 +9,13 @@ import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot, query, order
 import "./App.css";
 // masukan path gambar baru disini: semua asset utama undangan
 const IMAGE_PATHS = {
-  cover: "/images/satu.jpeg", // masukan path gambar baru disini (hero cover)
-  quote: "/images/dua.jpeg", // masukan path gambar baru disini (words of love)
+  cover: "/images/fixsatu.png", // masukan path gambar baru disini (hero cover)
+  quote: "/images/fixdua.png", // masukan path gambar baru disini (words of love)
   brideLeft: "/images/sabb.jpeg", // masukan path gambar baru disini (foto mempelai slot 1)
-  brideRight: "/images/catunkgil.jpeg", // masukan path gambar baru disini (foto mempelai slot 2)
-  ceremony: "/images/ceremony.jpg", // masukan path gambar baru disini (foto acara)
-  defaultQR: "/images/default-qr.png", // masukan path gambar baru disini (fallback QR)
-  momentsTop: "/images/tujuh.jpeg", // masukan path gambar baru disini (frame foto atas di section foto)
+  brideRight: "/images/catunkfix-clean.png", // masukan path gambar baru disini (foto mempelai slot 2)
+  ceremony: "", // masukan path gambar baru disini (foto acara), kosongkan kalau belum ada
+  defaultQR: "", // masukan path gambar baru disini (fallback QR), kosongkan kalau belum ada
+  momentsTop: "/images/fixtiga.png", // masukan path gambar baru disini (frame foto atas di section foto)
   momentsBottom: "/images/carodua.jpg" // masukan path gambar baru disini (frame foto bawah di section foto)
 };
 
@@ -26,6 +25,17 @@ const COUPLE = {
   bride: "Keisya Aprilia",
   venueShort: "MASJID AL-FITRAH PINDAD",
   venueAddress: "Jl. Gatot Subroto No.517 Sukapura Kec. Kiaracondong Kota Bandung",
+};
+
+const GIFT_INFO = {
+  bankName: "BCA",
+  accountNumber: "1234567890",
+  accountHolder: "Muhamad Mushab"
+};
+
+const MUSIC_CONFIG = {
+  src: "/audio/swsundangan.mp3",
+  subtitle: "Sleeping With Sirens - Scene One: James Dean & Audrey Hepburn (Acoustic Version)"
 };
 // ----------------------------------------------------------------------------------
 
@@ -56,18 +66,21 @@ export default function InvitationPage() {
   // UI states
   const [showECheckin, setShowECheckin] = useState(false);
   const [renderECheckin, setRenderECheckin] = useState(false);
+  const [showGiftPopup, setShowGiftPopup] = useState(false);
+  const [renderGiftPopup, setRenderGiftPopup] = useState(false);
+  const [showTransferForm, setShowTransferForm] = useState(false);
+  const [isMusicControlHidden, setIsMusicControlHidden] = useState(false);
+  const [isSubmittingTransfer, setIsSubmittingTransfer] = useState(false);
+  const [transferNotice, setTransferNotice] = useState({ type: "", message: "" });
+  const [isMusicOn, setIsMusicOn] = useState(true);
+  const [musicNotice, setMusicNotice] = useState("");
+  const [isMusicAvailable, setIsMusicAvailable] = useState(true);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   // Countdown
   const [countdown, setCountdown] = useState({ days: "--", hours: "--", minutes: "--", seconds: "--" });
 
-  // Photos/pages for carousel/phone pages (4 screens total)
-  const pages = [IMAGE_PATHS.cover, IMAGE_PATHS.quote, IMAGE_PATHS.brideLeft, IMAGE_PATHS.ceremony]; // simple indexes
-  const [index, setIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // Screen ref for phone-like scroll (mobile)
-  const screenRef = useRef(null);
-  const [pageIndex, setPageIndex] = useState(0);
+  const audioRef = useRef(null);
 
   // RSVP states
   const [rsvpForm, setRsvpForm] = useState({ name: "", attendance: "1", message: "" });
@@ -78,6 +91,20 @@ export default function InvitationPage() {
   const [wishForm, setWishForm] = useState({ name: "", message: "" });
   const [wishSubmitted, setWishSubmitted] = useState(false);
   const [showCeremonyImage, setShowCeremonyImage] = useState(true);
+  const [transferForm, setTransferForm] = useState({
+    name: "",
+    amount: "",
+    proofFile: "",
+    message: ""
+  });
+
+  // Default nama pengisi form mengikuti nama penerima undangan.
+  useEffect(() => {
+    if (!guest?.name) return;
+    setRsvpForm((prev) => (prev.name ? prev : { ...prev, name: guest.name }));
+    setWishForm((prev) => (prev.name ? prev : { ...prev, name: guest.name }));
+    setTransferForm((prev) => ({ ...prev, name: guest.name }));
+  }, [guest]);
 
   // ----------------- Fetch guest (preserve original logic) -----------------
   useEffect(() => {
@@ -95,9 +122,7 @@ export default function InvitationPage() {
           const d = snap.data();
           setGuest({
             name: d.name || "Tamu Terhormat",
-            qrCode: d.qrCode || IMAGE_PATHS.defaultQR,
-            heroPhoto: d.heroPhoto || null,
-            uniqueId: snap.id
+            qrCode: d.qrCode || IMAGE_PATHS.defaultQR
           });
         }
       } catch (e) {
@@ -136,59 +161,6 @@ export default function InvitationPage() {
   }, []);
   // ----------------------------------------------
 
-  // ----------------- Carousel auto next -----------------
-  useEffect(() => {
-    const it = setInterval(() => setIndex((p) => (p + 1) % pages.length), 4200);
-    return () => clearInterval(it);
-  }, [pages.length]);
-
-  const next = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setIndex((p) => (p + 1) % pages.length);
-      setIsAnimating(false);
-    }, 300);
-  };
-  const prev = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setIndex((p) => (p - 1 + pages.length) % pages.length);
-      setIsAnimating(false);
-    }, 300);
-  };
-  // -------------------------------------------------------
-
-  // ----------------- Page scroll for phone mock -----------------
-  useEffect(() => {
-    if (!screenRef.current) return;
-    const el = screenRef.current;
-    const pageHeight = el.clientHeight;
-    el.scrollTo({ top: pageIndex * pageHeight, left: 0, behavior: "smooth" });
-  }, [pageIndex]);
-
-  // touch swipe for phone mock
-  useEffect(() => {
-    const el = screenRef.current;
-    if (!el) return;
-    let startY = 0;
-    const onTouchStart = (e) => (startY = e.touches[0].clientY);
-    const onTouchEnd = (e) => {
-      const endY = e.changedTouches[0].clientY;
-      const diff = endY - startY;
-      if (diff > 40) setPageIndex((p) => Math.max(0, p - 1));
-      else if (diff < -40) setPageIndex((p) => Math.min(4, p + 1)); // updated to 4 pages
-    };
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchend", onTouchEnd, { passive: true });
-    return () => {
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchend", onTouchEnd);
-    };
-  }, []);
-  // --------------------------------------------------------------
-
   // ----------------- Fetch wishes for Wish Wall -----------------
   useEffect(() => {
     const q = query(collection(db, "wishes"), orderBy("timestamp", "desc"));
@@ -212,7 +184,7 @@ export default function InvitationPage() {
 
     try {
       await addDoc(collection(db, "rsvp"), {
-        name: rsvpForm.name,
+        name: guest?.name || rsvpForm.name,
         attendance: rsvpForm.attendance,
         guests: rsvpForm.attendance === "0" ? 0 : parseInt(rsvpForm.attendance),
         message: rsvpForm.message,
@@ -220,7 +192,7 @@ export default function InvitationPage() {
         timestamp: new Date()
       });
       setRsvpSubmitted(true);
-      setRsvpForm({ name: "", attendance: "1", message: "" });
+      setRsvpForm({ name: guest?.name || "", attendance: "1", message: "" });
     } catch (error) {
       console.error("Error submitting RSVP:", error);
     }
@@ -232,11 +204,12 @@ export default function InvitationPage() {
     e.preventDefault();
     try {
       await addDoc(collection(db, "wishes"), {
-        ...wishForm,
+        name: guest?.name || wishForm.name,
+        message: wishForm.message,
         timestamp: new Date()
       });
       setWishSubmitted(true);
-      setWishForm({ name: "", message: "" });
+      setWishForm({ name: guest?.name || "", message: "" });
       setTimeout(() => setWishSubmitted(false), 3000);
     } catch (error) {
       console.error("Error submitting wish:", error);
@@ -276,9 +249,35 @@ export default function InvitationPage() {
       setShowECheckin(false);
       setTimeout(() => setRenderECheckin(false), 380);
     } else {
+      if (showGiftPopup) {
+        setShowGiftPopup(false);
+        setTimeout(() => setRenderGiftPopup(false), 380);
+      }
       setRenderECheckin(true);
       setTimeout(() => setShowECheckin(true), 20);
     }
+  };
+
+  const toggleGiftPopup = () => {
+    if (showGiftPopup) {
+      setShowGiftPopup(false);
+      setTimeout(() => setRenderGiftPopup(false), 380);
+      setShowTransferForm(false);
+      return;
+    }
+    if (showECheckin) {
+      setShowECheckin(false);
+      setTimeout(() => setRenderECheckin(false), 380);
+    }
+    setRenderGiftPopup(true);
+    setTimeout(() => setShowGiftPopup(true), 20);
+  };
+
+  const closeGiftPopup = () => {
+    setShowGiftPopup(false);
+    setTimeout(() => setRenderGiftPopup(false), 380);
+    setShowTransferForm(false);
+    setTransferNotice({ type: "", message: "" });
   };
 
   const downloadQR = () => {
@@ -289,14 +288,115 @@ export default function InvitationPage() {
     link.click();
   };
 
+  const playWeddingMusic = async ({ restart = false } = {}) => {
+    const audio = audioRef.current;
+    if (!audio || !isMusicAvailable) return;
+    try {
+      audio.volume = 0.55;
+      if (restart) audio.currentTime = 0;
+      await audio.play();
+      setIsMusicOn(true);
+      setIsMusicPlaying(true);
+      setMusicNotice("");
+    } catch (error) {
+      console.warn("Music playback was blocked or unavailable:", error);
+      setIsMusicOn(false);
+      setIsMusicPlaying(false);
+      setMusicNotice("Tap untuk memutar musik");
+    }
+  };
+
+  const stopWeddingMusic = ({ fromBackground = false } = {}) => {
+    const audio = audioRef.current;
+    audio?.pause();
+    setIsMusicOn(false);
+    setIsMusicPlaying(false);
+    setMusicNotice(fromBackground ? "Musik dijeda saat aplikasi ditutup" : "");
+  };
+
   const handleStart = () => {
     if (isOpening) return;
     setIsOpening(true);
+    if (isMusicOn) {
+      playWeddingMusic({ restart: true });
+    }
     setTimeout(() => {
       setStarted(true);
       setIsOpening(false);
       window.scrollTo({ top: 0, behavior: "auto" });
     }, 420);
+  };
+
+  const toggleMusic = () => {
+    if (isMusicOn && isMusicPlaying) {
+      stopWeddingMusic();
+      return;
+    }
+
+    if (!isMusicAvailable) {
+      setMusicNotice("File musik belum tersedia");
+      return;
+    }
+
+    setIsMusicOn(true);
+    playWeddingMusic();
+  };
+
+  const copyAccountNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(GIFT_INFO.accountNumber);
+      setTransferNotice({ type: "success", message: "Nomor rekening berhasil disalin" });
+    } catch (error) {
+      console.error("Failed to copy account number:", error);
+      setTransferNotice({ type: "error", message: "Gagal menyalin nomor rekening" });
+    }
+  };
+
+  const formatRupiah = (digits) => {
+    if (!digits) return "";
+    const numeric = parseInt(String(digits).replace(/[^\d]/g, ""), 10);
+    if (!numeric) return "";
+    return `Rp ${new Intl.NumberFormat("id-ID").format(numeric)}`;
+  };
+
+  const submitTransferConfirmation = async (e) => {
+    e.preventDefault();
+    const parsedAmount = parseInt(String(transferForm.amount).replace(/[^\d]/g, ""), 10);
+    if (!parsedAmount || parsedAmount <= 0) {
+      setTransferNotice({ type: "error", message: "Mohon isi jumlah transfer yang valid" });
+      return;
+    }
+
+    try {
+      setIsSubmittingTransfer(true);
+      setTransferNotice({ type: "loading", message: "Mengirim konfirmasi transfer..." });
+      await addDoc(collection(db, "gifts"), {
+        guestId: uniqueId,
+        name: guest?.name || transferForm.name,
+        amount: parsedAmount,
+        proofFileName: transferForm.proofFile || "",
+        message: transferForm.message || "",
+        timestamp: new Date()
+      });
+      setTransferForm({
+        name: guest?.name || "",
+        amount: "",
+        proofFile: "",
+        message: ""
+      });
+      setShowTransferForm(false);
+      setTransferNotice({ type: "success", message: "Konfirmasi transfer berhasil dikirim" });
+    } catch (error) {
+      console.error("Error submitting transfer confirmation:", error);
+      const errCode = error?.code || "unknown";
+      if (errCode === "permission-denied") {
+        setTransferNotice({ type: "error", message: "Gagal kirim konfirmasi: Firestore rules menolak akses ke collection gifts" });
+      } else {
+        setTransferNotice({ type: "error", message: `Gagal kirim konfirmasi transfer (${errCode})` });
+      }
+    } finally {
+      setIsSubmittingTransfer(false);
+    }
   };
   // -------------------------------------------------------------------
 
@@ -339,6 +439,54 @@ export default function InvitationPage() {
     return () => observer.disconnect();
   }, [started]);
 
+  useEffect(() => {
+    if (!transferNotice.message || transferNotice.type === "loading") return;
+    const timer = setTimeout(() => setTransferNotice({ type: "", message: "" }), 3200);
+    return () => clearTimeout(timer);
+  }, [transferNotice]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.55;
+    if (!isMusicOn) {
+      audio.pause();
+      setIsMusicPlaying(false);
+    }
+  }, [isMusicOn]);
+
+  useEffect(() => {
+    const stopForBackground = () => {
+      const audio = audioRef.current;
+      const shouldShowPausedState = started || (audio && !audio.paused);
+      audio?.pause();
+      if (!shouldShowPausedState) return;
+      setIsMusicOn(false);
+      setIsMusicPlaying(false);
+      setMusicNotice("Musik dijeda saat aplikasi ditutup");
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden || document.visibilityState !== "visible") {
+        stopForBackground();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener("freeze", stopForBackground);
+    window.addEventListener("pagehide", stopForBackground);
+    window.addEventListener("beforeunload", stopForBackground);
+    window.addEventListener("blur", stopForBackground);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener("freeze", stopForBackground);
+      window.removeEventListener("pagehide", stopForBackground);
+      window.removeEventListener("beforeunload", stopForBackground);
+      window.removeEventListener("blur", stopForBackground);
+    };
+  }, [started]);
+
   // ----------------- Loading / Error UI -----------------
   if (loading) {
     return (
@@ -359,9 +507,25 @@ export default function InvitationPage() {
   }
   // -------------------------------------------------------
 
+  const isMusicActive = isMusicOn && isMusicPlaying;
+  const hasQrCode = Boolean(guest?.qrCode);
+
     // ----------------- MAIN RENDER -----------------
   return (
     <div className="theme13">
+      <audio
+        ref={audioRef}
+        src={MUSIC_CONFIG.src}
+        loop
+        preload="auto"
+        onPlay={() => setIsMusicPlaying(true)}
+        onPause={() => setIsMusicPlaying(false)}
+        onError={() => {
+          setIsMusicAvailable(false);
+          setIsMusicOn(false);
+          setMusicNotice("File musik belum tersedia");
+        }}
+      />
       <div className="t13-bg" aria-hidden="true" />
       <div className="t13-container">
         <section className="t13-hero scroll-react from-left">
@@ -383,61 +547,67 @@ export default function InvitationPage() {
           </div>
         </section>
 
-        <section className="t13-section scroll-react from-right">
-          <div className="t13-card">
+        <section className="t13-section t13-couple-section scroll-react from-right">
+          <div className="t13-card t13-couple-card">
             <div className="t13-couple-header">
               <div className="t13-couple-script">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
               <div className="t13-couple-sub">We invite you to join our wedding</div>
             </div>
 
-            <div className="t13-couple-row t13-couple-row-top">
-              <div className="t13-couple-text">
-                <div className="t13-couple-name">{COUPLE.groom.toUpperCase()}</div>
-                <div className="t13-couple-desc">
-                  Putra Pertama dari
-                  <br />
-                  Bpk. Cholifah Holid
-                  <br />
-                  & Ibu Tjutrahmawti
+            <div className="t13-couple-pair">
+              <article className="t13-couple-profile t13-groom-profile">
+                <div className="t13-couple-photo-placeholder t13-groom-art">
+                  <img src={IMAGE_PATHS.brideLeft} alt={COUPLE.groom} />
                 </div>
-              </div>
-              <div className="t13-couple-photo-placeholder">
-                <img src={IMAGE_PATHS.brideLeft} alt={COUPLE.groom} />
-              </div>
-            </div>
-
-            <div className="t13-couple-amp">&amp;</div>
-
-            <div className="t13-couple-row t13-couple-row-bottom">
-              <div className="t13-couple-photo-placeholder">
-                <img src={IMAGE_PATHS.brideRight} alt={COUPLE.bride} />
-              </div>
-              <div className="t13-couple-text t13-couple-text-right">
-                <div className="t13-couple-name">{COUPLE.bride.toUpperCase()}</div>
-                <div className="t13-couple-desc">
-                  Putri Pertama dari
-                  <br />
-                  Bpk. (Alm) Indra Rosindra
-                  <br />
-                  & Ibu. (Almh) Ade Tatin
+                <div className="t13-couple-text">
+                  <div className="t13-couple-name">{COUPLE.groom.toUpperCase()}</div>
+                  <div className="t13-couple-desc">
+                    Putra Pertama dari
+                    <br />
+                    Bpk. Cholifah Holid
+                    <br />
+                    & Ibu Tjutrahmawti
+                  </div>
                 </div>
-              </div>
+              </article>
+
+              <div className="t13-couple-amp" aria-hidden="true">&amp;</div>
+
+              <article className="t13-couple-profile t13-bride-profile">
+                <div className="t13-couple-photo-placeholder t13-bride-art">
+                  <img src={IMAGE_PATHS.brideRight} alt={COUPLE.bride} />
+                </div>
+                <div className="t13-couple-text t13-couple-text-right">
+                  <div className="t13-couple-name">{COUPLE.bride.toUpperCase()}</div>
+                  <div className="t13-couple-desc">
+                    Putri Pertama dari
+                    <br />
+                    Bpk. (Alm) Indra Rosindra
+                    <br />
+                    & Ibu. (Almh) Ade Tatin
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         </section>
 
         <section className="t13-section scroll-react from-right t13-words-section">
-          <div className="t13-card">
-            <h2 className="t13-title t13-words-title">Words of Love</h2>
-            <div className="t13-quote-wrap">
-              <div className="t13-quote-photo">
-                <img src={IMAGE_PATHS.quote} alt="quote" />
-                <div className="t13-quote-tape" />
-              </div>
+          <div className="t13-words-panel">
+            <div className="t13-words-copy">
+              <div className="t13-section-kicker">A NOTE ON LOVE</div>
+              <h2 className="t13-title t13-words-title">Words of Love</h2>
               <div className="t13-quote-text">
                 Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis) dirimu sendiri agar kamu merasa tenteram kepadanya.
               </div>
               <div className="t13-quote-ref">(Q.S Ar-Rum : 21)</div>
+            </div>
+
+            <div className="t13-quote-art">
+              <div className="t13-quote-photo">
+                <img src={IMAGE_PATHS.quote} alt="quote" />
+              </div>
+              <div className="t13-art-caption">Together, in calm and grace</div>
             </div>
           </div>
         </section>
@@ -457,7 +627,7 @@ export default function InvitationPage() {
               <div className="t13-year">2026</div>
               <div className="t13-event-list">
                 <div className="t13-event-item">
-                  <div className="t13-event-title">AKAD NIKAH</div>
+                  <div className="t13-event-title">AKAD NIKAH (Private Session)</div>
                   <div className="t13-event-time">09.00 - 10.00 WIB</div>
                 </div>
                 <div className="t13-event-item">
@@ -477,7 +647,7 @@ export default function InvitationPage() {
             <div className="t13-meta">
               <MapPin size={16} /> {COUPLE.venueShort}, {COUPLE.venueAddress}
             </div>
-            {showCeremonyImage && (
+            {showCeremonyImage && IMAGE_PATHS.ceremony && (
               <div className="t13-quote-frame">
                 <img
                   src={IMAGE_PATHS.ceremony}
@@ -514,15 +684,22 @@ export default function InvitationPage() {
 
           <div className="t13-photo-section scroll-react from-right">
             {/* masukan path gambar baru disini: section foto ini pakai path baru IMAGE_PATHS.momentsTop & IMAGE_PATHS.momentsBottom */}
-            <div className="t13-photo-wide">
-              <img src={IMAGE_PATHS.momentsTop} alt="moment wide" />
+            <div className="t13-story-header">
+              <div className="t13-section-kicker">OUR MOMENTS</div>
+              <div className="t13-story-title">A small glimpse of us</div>
+            </div>
+            <div className="t13-story-spotlight">
+              <div className="t13-photo-wide">
+                <img src={IMAGE_PATHS.momentsTop} alt="moment wide" />
+              </div>
+              <div className="t13-story-note">Mushab & Keisya</div>
             </div>
             <div className="t13-photo-row">
               <div className="t13-photo-square">
                 <img src={IMAGE_PATHS.momentsBottom} alt="moment square" />
               </div>
               <div className="t13-photo-verttext">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Setiap langkah kecil membawa kami pada hari yang kami syukuri bersama keluarga dan sahabat.
               </div>
             </div>
             <div className="t13-paper-card">
@@ -530,7 +707,7 @@ export default function InvitationPage() {
                 <span>THE</span>
                 <span>WEDDING</span>
               </div>
-              <div className="t13-paper-date">06.25.26</div>
+              <div className="t13-paper-date">06.20.26</div>
               <div className="t13-paper-names">MUSHAB & KEISYA</div>
               <div className="t13-paper-title">WE ARE GETTING MARRIED</div>
             </div>
@@ -544,14 +721,14 @@ export default function InvitationPage() {
               <div className="t13-success">Terima kasih atas konfirmasi kehadiran Anda!</div>
             ) : (
               <form onSubmit={submitRSVP} className="t13-form">
-                <input
-                  type="text"
-                  placeholder="Nama Anda"
-                  value={rsvpForm.name}
-                  onChange={(e) => setRsvpForm({ ...rsvpForm, name: e.target.value })}
-                  className="t13-input"
-                  required
-                />
+              <input
+                type="text"
+                placeholder="Nama Anda"
+                value={rsvpForm.name}
+                readOnly
+                className="t13-input"
+                required
+              />
                 <select
                   value={rsvpForm.attendance}
                   onChange={(e) => setRsvpForm({ ...rsvpForm, attendance: e.target.value })}
@@ -583,7 +760,7 @@ export default function InvitationPage() {
                 type="text"
                 placeholder="Nama Anda"
                 value={wishForm.name}
-                onChange={(e) => setWishForm({ ...wishForm, name: e.target.value })}
+                readOnly
                 className="t13-input"
                 required
               />
@@ -640,7 +817,7 @@ export default function InvitationPage() {
 
             <div className="t13-intro-bottom">
               <div className="t13-intro-caption">Dear</div>
-              <div className="t13-intro-subtitle">Penerima Undangan</div>
+              <div className="t13-intro-subtitle">{guest?.name || "Penerima Undangan"}</div>
               <div className="t13-intro-action">
                 <button onClick={handleStart} disabled={isOpening} className="t13-intro-btn">
                   <BookOpen size={16} />
@@ -653,9 +830,55 @@ export default function InvitationPage() {
       )}
 
       <div className="t13-fab">
-        <button onClick={toggleECheckin} className="t13-btn t13-btn-dark">
+        <button
+          onClick={toggleGiftPopup}
+          className="t13-btn t13-btn-dark"
+          aria-label={showGiftPopup ? "Sembunyikan gift section" : "Tampilkan gift section"}
+          title={showGiftPopup ? "Hide Gift Section" : "Gift Section"}
+        >
+          <Gift size={16} /> <span>{showGiftPopup ? "Hide Gift Section" : "Gift Section"}</span>
+        </button>
+        <button
+          onClick={toggleECheckin}
+          className="t13-btn t13-btn-dark"
+          aria-label={showECheckin ? "Sembunyikan QR code" : "Tampilkan QR code"}
+          title={showECheckin ? "Hide QR Code" : "Show QR Code"}
+        >
           {showECheckin ? <EyeOff size={16} /> : <Eye size={16} />} <span>{showECheckin ? "Hide QR Code" : "Show QR Code"}</span>
         </button>
+        {isMusicControlHidden ? (
+          <button type="button" onClick={() => setIsMusicControlHidden(false)} className="t13-btn t13-btn-dark t13-music-reveal">
+            <Eye size={16} /> <span>Show Music</span>
+          </button>
+        ) : (
+          <div className={`t13-music-control ${isMusicActive ? "is-playing is-on" : "is-off"}`}>
+            <button
+              type="button"
+              onClick={toggleMusic}
+              className="t13-music-btn"
+              aria-label={isMusicActive ? "Matikan musik" : "Nyalakan musik"}
+              aria-pressed={isMusicActive}
+              title={musicNotice || MUSIC_CONFIG.subtitle}
+            >
+              <span className="t13-music-disc" aria-hidden="true">
+                {isMusicActive ? <Volume2 size={15} /> : <VolumeX size={15} />}
+              </span>
+              <span className="t13-music-copy">
+                <span className="t13-music-label">Musik</span>
+                <span className="t13-music-title">{musicNotice || MUSIC_CONFIG.subtitle}</span>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsMusicControlHidden(true)}
+              className="t13-music-hide-btn"
+              aria-label="Sembunyikan kontrol musik"
+              title="Sembunyikan kontrol musik"
+            >
+              <EyeOff size={17} />
+            </button>
+          </div>
+        )}
       </div>
 
       {renderECheckin && (
@@ -663,12 +886,104 @@ export default function InvitationPage() {
           <h4>E-CHECKIN CARD</h4>
           <p>Mushab & Keisya - Resepsi Pernikahan</p>
           <div className="qr">
-            <img src={guest.qrCode || IMAGE_PATHS.defaultQR} alt="qr" />
+            {hasQrCode ? (
+              <img src={guest.qrCode} alt="qr" />
+            ) : (
+              <div className="t13-qr-empty">QR belum tersedia</div>
+            )}
           </div>
-          <button onClick={downloadQR} className="t13-btn t13-btn-ghost w-full">Download QR</button>
+          <button onClick={downloadQR} className="t13-btn t13-btn-ghost w-full" disabled={!hasQrCode}>Download QR</button>
+        </div>
+      )}
+
+      {renderGiftPopup && (
+        <div className={`t13-echeckin t13-gift-popup ${showGiftPopup ? "is-show" : ""}`}>
+          <h4>GIFT SECTION</h4>
+          {transferNotice.message && (
+            <div className={`t13-transfer-notice is-${transferNotice.type}`}>
+              {transferNotice.message}
+            </div>
+          )}
+          {!showTransferForm ? (
+            <>
+              <p>Silakan kirim hadiah ke rekening berikut</p>
+              <div className="t13-form">
+                <div className="t13-input">
+                  <strong>Bank</strong>
+                  <div>{GIFT_INFO.bankName}</div>
+                </div>
+                <div className="t13-input">
+                  <strong>Nomor Rekening</strong>
+                  <div>{GIFT_INFO.accountNumber}</div>
+                </div>
+                <div className="t13-input">
+                  <strong>A/N Rekening</strong>
+                  <div>{GIFT_INFO.accountHolder}</div>
+                </div>
+                <button type="button" onClick={copyAccountNumber} className="t13-btn t13-btn-solid w-full">
+                  Copy Nomor Rekening
+                </button>
+                <button type="button" onClick={() => setShowTransferForm(true)} className="t13-btn t13-btn-ghost w-full">
+                  Konfirmasi Transfer
+                </button>
+                <button type="button" onClick={closeGiftPopup} className="t13-btn t13-btn-dark w-full">
+                  Close
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p>Isi konfirmasi transfer</p>
+              <form onSubmit={submitTransferConfirmation} className="t13-form">
+                <input
+                  type="text"
+                  value={transferForm.name}
+                  readOnly
+                  className="t13-input"
+                  required
+                />
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="Jumlah Transfer (Rp)"
+                  value={formatRupiah(transferForm.amount)}
+                  onChange={(e) => {
+                    const digitsOnly = e.target.value.replace(/[^\d]/g, "");
+                    setTransferForm({ ...transferForm, amount: digitsOnly });
+                  }}
+                  className="t13-input"
+                  required
+                />
+                <input
+                  type="file"
+                  accept="image/*,.pdf"
+                  onChange={(e) => {
+                    const fileName = e.target.files?.[0]?.name || "";
+                    setTransferForm({ ...transferForm, proofFile: fileName });
+                  }}
+                  className="t13-input t13-file-input"
+                />
+                <textarea
+                  placeholder="Ucapan (opsional)"
+                  value={transferForm.message}
+                  onChange={(e) => setTransferForm({ ...transferForm, message: e.target.value })}
+                  className="t13-input"
+                  rows="3"
+                />
+                <button type="submit" disabled={isSubmittingTransfer} className="t13-btn t13-btn-solid w-full">
+                  {isSubmittingTransfer ? "Mengirim..." : "Kirim Konfirmasi"}
+                </button>
+                <button type="button" disabled={isSubmittingTransfer} onClick={() => setShowTransferForm(false)} className="t13-btn t13-btn-ghost w-full">
+                  Kembali
+                </button>
+                <button type="button" disabled={isSubmittingTransfer} onClick={closeGiftPopup} className="t13-btn t13-btn-dark w-full">
+                  Close
+                </button>
+              </form>
+            </>
+          )}
         </div>
       )}
     </div>
   );  
 }
-
