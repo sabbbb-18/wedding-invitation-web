@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Eye, EyeOff, BookOpen, MapPin, Gift, Volume2, VolumeX } from "lucide-react";
+import { Eye, EyeOff, BookOpen, MapPin, Gift, Volume2, VolumeX, CalendarCheck, ArrowRight } from "lucide-react";
 
 // FIREBASE 
 import { initializeApp } from "firebase/app";
@@ -11,12 +11,12 @@ import "./App.css";
 const IMAGE_PATHS = {
   cover: "/images/fixsatu.png", // masukan path gambar baru disini (hero cover)
   quote: "/images/fixdua.png", // masukan path gambar baru disini (words of love)
-  brideLeft: "/images/sabb.jpeg", // masukan path gambar baru disini (foto mempelai slot 1)
-  brideRight: "/images/catunkfix-clean.png", // masukan path gambar baru disini (foto mempelai slot 2)
+  brideLeft: "/images/mushabhbfix.png", // masukan path gambar baru disini (foto mempelai slot 1)
+  brideRight: "/images/catunkfixhb.png", // masukan path gambar baru disini (foto mempelai slot 2)
   ceremony: "", // masukan path gambar baru disini (foto acara), kosongkan kalau belum ada
   defaultQR: "", // masukan path gambar baru disini (fallback QR), kosongkan kalau belum ada
   momentsTop: "/images/fixtiga.png", // masukan path gambar baru disini (frame foto atas di section foto)
-  momentsBottom: "/images/carodua.jpg" // masukan path gambar baru disini (frame foto bawah di section foto)
+  momentsBottom: "/images/potobox.png" // masukan path gambar baru disini (frame foto bawah di section foto)
 };
 
 // Couple / Venue text - edit here if needed
@@ -29,7 +29,7 @@ const COUPLE = {
 
 const GIFT_INFO = {
   bankName: "BCA",
-  accountNumber: "1234567890",
+  accountNumber: "6631131619",
   accountHolder: "Muhamad Mushab"
 };
 
@@ -242,6 +242,13 @@ export default function InvitationPage() {
   const mapsQuery = `${COUPLE.venueShort}, ${COUPLE.venueAddress}`;
   const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
   const mapsEmbedSrc = `https://maps.google.com/maps?hl=id&q=${encodeURIComponent(mapsQuery)}&t=&z=16&ie=UTF8&iwloc=B&output=embed`;
+
+  const scrollToRsvp = () => {
+    document.getElementById("rsvp")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
 
   // ----------------- E-checkin toggle & QR download -----------------
   const toggleECheckin = () => {
@@ -545,18 +552,38 @@ export default function InvitationPage() {
             <div className="t13-hero-amp">&amp;</div>
             <div>{COUPLE.bride.toUpperCase()}</div>
           </div>
+          <div className="t13-hero-rsvp">
+            <button type="button" onClick={scrollToRsvp} className="t13-rsvp-jump t13-hero-rsvp-button">
+              <span className="t13-rsvp-icon" aria-hidden="true">
+                <CalendarCheck size={17} />
+              </span>
+              <span className="t13-rsvp-button-copy">
+                <span className="t13-rsvp-button-kicker">RSVP HERE</span>
+                <span className="t13-rsvp-button-label">Save My Seat</span>
+              </span>
+              <ArrowRight className="t13-rsvp-arrow" size={17} aria-hidden="true" />
+            </button>
+          </div>
         </section>
 
-        <section className="t13-section t13-couple-section scroll-react from-right">
+        <section className="t13-section t13-couple-section t13-couple-modern scroll-react from-right">
           <div className="t13-card t13-couple-card">
             <div className="t13-couple-header">
+              <div className="t13-couple-eyebrow">Wedding Couple</div>
+              <div className="t13-couple-title-wrap" aria-label="Bride and Groom">
+                <span className="t13-couple-title-rule" aria-hidden="true" />
+                <h2 className="t13-couple-section-title">Bride <span>&amp;</span> Groom</h2>
+                <span className="t13-couple-title-rule" aria-hidden="true" />
+              </div>
+              <div className="t13-couple-modern-sub">Together with our families, we invite you to celebrate our wedding day.</div>
               <div className="t13-couple-script">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
               <div className="t13-couple-sub">We invite you to join our wedding</div>
             </div>
 
             <div className="t13-couple-pair">
               <article className="t13-couple-profile t13-groom-profile">
-                <div className="t13-couple-photo-placeholder t13-groom-art">
+                <div className="t13-profile-label">Groom</div>
+                <div className="t13-couple-photo-placeholder t13-couple-portrait t13-groom-art">
                   <img src={IMAGE_PATHS.brideLeft} alt={COUPLE.groom} />
                 </div>
                 <div className="t13-couple-text">
@@ -574,13 +601,14 @@ export default function InvitationPage() {
               <div className="t13-couple-amp" aria-hidden="true">&amp;</div>
 
               <article className="t13-couple-profile t13-bride-profile">
-                <div className="t13-couple-photo-placeholder t13-bride-art">
+                <div className="t13-profile-label">Bride</div>
+                <div className="t13-couple-photo-placeholder t13-couple-portrait t13-bride-art">
                   <img src={IMAGE_PATHS.brideRight} alt={COUPLE.bride} />
                 </div>
                 <div className="t13-couple-text t13-couple-text-right">
                   <div className="t13-couple-name">{COUPLE.bride.toUpperCase()}</div>
                   <div className="t13-couple-desc">
-                    Putri Pertama dari
+                    Putri Tunggal dari
                     <br />
                     Bpk. (Alm) Indra Rosindra
                     <br />
@@ -685,14 +713,12 @@ export default function InvitationPage() {
           <div className="t13-photo-section scroll-react from-right">
             {/* masukan path gambar baru disini: section foto ini pakai path baru IMAGE_PATHS.momentsTop & IMAGE_PATHS.momentsBottom */}
             <div className="t13-story-header">
-              <div className="t13-section-kicker">OUR MOMENTS</div>
-              <div className="t13-story-title">A small glimpse of us</div>
+              <div className="t13-section-kicker">THE TWO OF US</div>
             </div>
             <div className="t13-story-spotlight">
               <div className="t13-photo-wide">
                 <img src={IMAGE_PATHS.momentsTop} alt="moment wide" />
               </div>
-              <div className="t13-story-note">Mushab & Keisya</div>
             </div>
             <div className="t13-photo-row">
               <div className="t13-photo-square">
@@ -714,7 +740,7 @@ export default function InvitationPage() {
           </div>
         </section>
 
-        <section className="t13-section t13-grid scroll-react from-left">
+        <section id="rsvp" className="t13-section t13-grid scroll-react from-left">
           <div className="t13-card">
             <h2 className="t13-title">RSVP Your Attendance</h2>
             {rsvpSubmitted ? (
@@ -832,19 +858,19 @@ export default function InvitationPage() {
       <div className="t13-fab">
         <button
           onClick={toggleGiftPopup}
-          className="t13-btn t13-btn-dark"
+          className={`t13-btn t13-btn-dark t13-fab-action ${showGiftPopup ? "is-active" : ""}`}
           aria-label={showGiftPopup ? "Sembunyikan gift section" : "Tampilkan gift section"}
           title={showGiftPopup ? "Hide Gift Section" : "Gift Section"}
         >
-          <Gift size={16} /> <span>{showGiftPopup ? "Hide Gift Section" : "Gift Section"}</span>
+          <Gift size={16} /> <span>Gift</span>
         </button>
         <button
           onClick={toggleECheckin}
-          className="t13-btn t13-btn-dark"
+          className={`t13-btn t13-btn-dark t13-fab-action ${showECheckin ? "is-active" : ""}`}
           aria-label={showECheckin ? "Sembunyikan QR code" : "Tampilkan QR code"}
           title={showECheckin ? "Hide QR Code" : "Show QR Code"}
         >
-          {showECheckin ? <EyeOff size={16} /> : <Eye size={16} />} <span>{showECheckin ? "Hide QR Code" : "Show QR Code"}</span>
+          {showECheckin ? <EyeOff size={16} /> : <Eye size={16} />} <span>QR Code</span>
         </button>
         {isMusicControlHidden ? (
           <button type="button" onClick={() => setIsMusicControlHidden(false)} className="t13-btn t13-btn-dark t13-music-reveal">

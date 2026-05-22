@@ -51,8 +51,8 @@ body {
   inset: 0;
   /* masukan path gambar baru disini: background halaman setelah klik Open Invitation */
   background-image:
-    linear-gradient(rgba(255, 252, 246, 0.60), rgba(255, 252, 246, 0.60)),
-    url("./bunga.jpeg");
+    linear-gradient(rgba(255, 252, 246, 0.35), rgba(255, 252, 246, 0.35)),
+    url("./bgbarufix.jpeg");
   background-size: cover, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
@@ -3180,5 +3180,1336 @@ body {
 
   .t13-fab > .t13-btn span {
     display: inline !important;
+  }
+}
+
+/* Final photo fitting for the updated half-body and photo-box assets. */
+.t13-couple-profile .t13-couple-photo-placeholder {
+  overflow: visible !important;
+}
+
+.t13-groom-profile .t13-couple-photo-placeholder {
+  align-items: center !important;
+  height: clamp(132px, 21vw, 192px) !important;
+}
+
+.t13-bride-profile .t13-couple-photo-placeholder {
+  height: clamp(160px, 25vw, 222px) !important;
+}
+
+.t13-couple-profile .t13-couple-photo-placeholder img {
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.t13-couple-profile .t13-groom-art img {
+  width: 100% !important;
+  max-width: min(230px, 100%) !important;
+  max-height: clamp(126px, 19vw, 176px) !important;
+}
+
+.t13-couple-profile .t13-bride-art img {
+  max-width: min(176px, 94%) !important;
+  max-height: clamp(154px, 25vw, 214px) !important;
+}
+
+.t13-photo-square {
+  display: grid;
+  place-items: center;
+  overflow: visible !important;
+}
+
+.t13-photo-square img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 2 / 3 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: transparent !important;
+}
+
+@media (max-width: 640px) {
+  .t13-groom-profile .t13-couple-photo-placeholder {
+    height: clamp(112px, 36vw, 148px) !important;
+  }
+
+  .t13-bride-profile .t13-couple-photo-placeholder {
+    height: clamp(162px, 50vw, 204px) !important;
+  }
+
+  .t13-couple-profile .t13-groom-art img {
+    max-width: min(154px, 100%) !important;
+    max-height: clamp(96px, 31vw, 128px) !important;
+  }
+
+  .t13-couple-profile .t13-bride-art img {
+    max-width: min(138px, 94%) !important;
+    max-height: clamp(156px, 48vw, 196px) !important;
+  }
+}
+
+/* Couple section redesign: modern editorial layout with balanced half-body portraits. */
+.t13-couple-modern {
+  margin-top: clamp(24px, 6vw, 56px) !important;
+}
+
+.t13-couple-modern .t13-couple-card {
+  padding: clamp(18px, 4vw, 34px) !important;
+  border: 1px solid rgba(94, 73, 56, 0.14) !important;
+  border-radius: clamp(24px, 4vw, 34px) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.94) 0%, rgba(232, 239, 229, 0.56) 54%, rgba(247, 238, 226, 0.88) 100%) !important;
+  box-shadow: 0 28px 60px rgba(70, 50, 34, 0.13) !important;
+  overflow: hidden !important;
+}
+
+.t13-couple-modern .t13-couple-card::before {
+  inset: 10px !important;
+  border-color: rgba(94, 73, 56, 0.10) !important;
+  border-radius: calc(clamp(24px, 4vw, 34px) - 8px) !important;
+}
+
+.t13-couple-modern .t13-couple-header {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  max-width: 620px;
+  margin: 0 auto clamp(18px, 4vw, 30px) !important;
+  text-align: center;
+}
+
+.t13-couple-modern .t13-couple-script,
+.t13-couple-modern .t13-couple-header > .t13-couple-sub {
+  display: none !important;
+}
+
+.t13-couple-modern-kicker,
+.t13-profile-label {
+  color: #6f7b61;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.t13-couple-heading {
+  margin: 0;
+  color: #6e1f1f;
+  font-family: "Playfair Display", "Cormorant Garamond", serif;
+  font-size: clamp(34px, 7vw, 58px);
+  font-weight: 600;
+  line-height: 0.96;
+}
+
+.t13-couple-modern-sub {
+  max-width: 460px;
+  color: #5e4938;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.t13-couple-modern .t13-couple-pair {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
+  align-items: stretch !important;
+}
+
+.t13-couple-modern .t13-groom-profile,
+.t13-couple-modern .t13-bride-profile {
+  grid-column: auto !important;
+}
+
+.t13-couple-modern .t13-couple-profile {
+  display: grid !important;
+  grid-template-rows: auto auto auto !important;
+  gap: clamp(10px, 2vw, 14px) !important;
+  min-height: 0 !important;
+  padding: clamp(14px, 3vw, 22px) !important;
+  border: 1px solid rgba(94, 73, 56, 0.13) !important;
+  border-radius: clamp(20px, 3vw, 28px) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 246, 0.90), rgba(246, 241, 232, 0.68)) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76), 0 16px 28px rgba(74, 50, 30, 0.08) !important;
+  overflow: hidden !important;
+}
+
+.t13-couple-modern .t13-couple-profile::before {
+  content: none !important;
+}
+
+.t13-couple-modern .t13-couple-portrait {
+  display: block !important;
+  width: min(330px, 100%) !important;
+  height: auto !important;
+  max-width: none !important;
+  aspect-ratio: 1.18 / 1 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 1px solid rgba(94, 73, 56, 0.12) !important;
+  border-radius: 999px 999px 24px 24px !important;
+  background:
+    linear-gradient(180deg, rgba(238, 232, 222, 0.96), rgba(232, 239, 229, 0.62)) !important;
+  box-shadow: 0 18px 34px rgba(64, 45, 30, 0.15) !important;
+  overflow: hidden !important;
+}
+
+.t13-couple-modern .t13-couple-portrait img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  object-fit: cover !important;
+}
+
+.t13-couple-modern .t13-groom-art img {
+  object-position: center 44% !important;
+  transform: scale(1.04) !important;
+}
+
+.t13-couple-modern .t13-bride-art img {
+  object-position: center 11% !important;
+  transform: scale(1.16) !important;
+}
+
+.t13-couple-modern .t13-couple-text,
+.t13-couple-modern .t13-couple-text-right {
+  width: 100%;
+  max-width: 360px;
+  justify-self: center !important;
+  text-align: center !important;
+}
+
+.t13-couple-modern .t13-couple-name {
+  color: #6e1f1f !important;
+  font-family: "Playfair Display", "Cormorant Garamond", serif;
+  font-size: clamp(24px, 6vw, 38px) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  line-height: 1.02 !important;
+}
+
+.t13-couple-modern .t13-couple-desc {
+  margin-top: 10px !important;
+  color: #3f3328 !important;
+  font-family: "Special Elite", "Times New Roman", serif;
+  font-size: clamp(12px, 2.8vw, 14px) !important;
+  font-weight: 700 !important;
+  line-height: 1.55 !important;
+}
+
+.t13-couple-modern .t13-couple-pair .t13-couple-amp {
+  position: relative !important;
+  grid-column: auto !important;
+  align-self: center !important;
+  justify-self: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  margin: 0 !important;
+  transform: none !important;
+  border: 1px solid rgba(110, 31, 31, 0.18) !important;
+  border-radius: 50% !important;
+  background: rgba(255, 253, 248, 0.94) !important;
+  color: #6e1f1f !important;
+  box-shadow: 0 12px 24px rgba(70, 50, 34, 0.11) !important;
+  font-size: 19px !important;
+  letter-spacing: 0 !important;
+}
+
+.t13-couple-modern .t13-couple-pair .t13-couple-amp::before,
+.t13-couple-modern .t13-couple-pair .t13-couple-amp::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  width: min(84px, 20vw) !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, rgba(110, 31, 31, 0), rgba(110, 31, 31, 0.22)) !important;
+  transform: translateY(-50%) !important;
+}
+
+.t13-couple-modern .t13-couple-pair .t13-couple-amp::before {
+  right: calc(100% + 10px) !important;
+}
+
+.t13-couple-modern .t13-couple-pair .t13-couple-amp::after {
+  left: calc(100% + 10px) !important;
+  transform: translateY(-50%) rotate(180deg) !important;
+}
+
+@media (min-width: 760px) {
+  .t13-couple-modern .t13-couple-pair {
+    grid-template-columns: minmax(0, 1fr) clamp(42px, 6vw, 58px) minmax(0, 1fr) !important;
+    gap: clamp(12px, 2.2vw, 22px) !important;
+  }
+
+  .t13-couple-modern .t13-groom-profile {
+    grid-column: 1 !important;
+  }
+
+  .t13-couple-modern .t13-couple-pair .t13-couple-amp {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  .t13-couple-modern .t13-bride-profile {
+    grid-column: 3 !important;
+  }
+
+  .t13-couple-modern .t13-couple-portrait {
+    width: min(300px, 100%) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-couple-modern .t13-couple-card {
+    padding: 16px 12px 18px !important;
+  }
+
+  .t13-couple-heading {
+    font-size: clamp(32px, 10vw, 44px);
+  }
+
+  .t13-couple-modern .t13-couple-portrait {
+    width: min(300px, 100%) !important;
+  }
+
+  .t13-couple-modern .t13-bride-art img {
+    object-position: center 9% !important;
+    transform: scale(1.18) !important;
+  }
+}
+
+/* Compact couple section: keep portraits visible and reduce scroll height. */
+.t13-couple-modern {
+  margin-top: clamp(20px, 5vw, 44px) !important;
+}
+
+.t13-couple-modern .t13-couple-card {
+  padding: clamp(14px, 3vw, 24px) !important;
+}
+
+.t13-couple-modern .t13-couple-header {
+  gap: 6px !important;
+  margin-bottom: clamp(12px, 2.6vw, 22px) !important;
+}
+
+.t13-couple-modern .t13-couple-heading {
+  font-size: clamp(30px, 6.2vw, 50px) !important;
+  letter-spacing: 0 !important;
+}
+
+.t13-couple-modern .t13-couple-modern-sub {
+  max-width: 420px;
+  font-size: clamp(11px, 1.8vw, 13px);
+  line-height: 1.45;
+}
+
+.t13-couple-modern .t13-couple-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #6f7b61;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.t13-couple-modern .t13-couple-eyebrow::before,
+.t13-couple-modern .t13-couple-eyebrow::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #8f2a2a;
+  box-shadow: 0 0 0 4px rgba(143, 42, 42, 0.08);
+}
+
+.t13-couple-modern .t13-couple-title-wrap {
+  display: grid;
+  grid-template-columns: minmax(28px, 1fr) auto minmax(28px, 1fr);
+  align-items: center;
+  gap: clamp(8px, 2vw, 14px);
+  width: min(390px, 96%);
+  margin-top: 1px;
+}
+
+.t13-couple-modern .t13-couple-title-rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(143, 42, 42, 0), rgba(143, 42, 42, 0.32), rgba(111, 123, 97, 0.18));
+}
+
+.t13-couple-modern .t13-couple-title-rule:last-child {
+  transform: rotate(180deg);
+}
+
+.t13-couple-modern .t13-couple-section-title {
+  margin: 0;
+  color: #6e1f1f;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: clamp(26px, 6.6vw, 43px);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 0.95;
+  text-transform: none;
+  text-shadow: 0 8px 18px rgba(110, 31, 31, 0.10);
+  white-space: nowrap;
+}
+
+.t13-couple-modern .t13-couple-section-title span {
+  display: inline-block;
+  margin: 0 0.08em;
+  color: #6f7b61;
+  font-size: 0.86em;
+  font-weight: 600;
+  transform: translateY(-0.03em);
+}
+
+.t13-couple-modern .t13-couple-header .t13-couple-modern-kicker {
+  display: none !important;
+}
+
+.t13-couple-modern .t13-couple-pair {
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+}
+
+.t13-couple-modern .t13-couple-profile {
+  grid-template-columns: minmax(112px, 34%) minmax(0, 1fr) !important;
+  grid-template-rows: auto 1fr !important;
+  grid-template-areas:
+    "photo label"
+    "photo copy" !important;
+  align-items: center !important;
+  column-gap: clamp(12px, 3vw, 20px) !important;
+  row-gap: 7px !important;
+  min-height: 0 !important;
+  padding: clamp(12px, 2.5vw, 18px) !important;
+  border-radius: clamp(16px, 2.6vw, 22px) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.94), rgba(235, 240, 231, 0.62)) !important;
+}
+
+.t13-couple-modern .t13-bride-profile {
+  grid-template-columns: minmax(0, 1fr) minmax(112px, 34%) !important;
+  grid-template-areas:
+    "label photo"
+    "copy photo" !important;
+}
+
+.t13-couple-modern .t13-profile-label {
+  grid-area: label;
+  justify-self: start;
+  align-self: end;
+  display: inline-flex;
+  width: fit-content;
+  min-height: 24px;
+  align-items: center;
+  padding: 6px 10px;
+  border: 1px solid rgba(111, 123, 97, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.82);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.t13-couple-modern .t13-bride-profile .t13-profile-label {
+  justify-self: end;
+}
+
+.t13-couple-modern .t13-couple-portrait {
+  grid-area: photo;
+  display: grid !important;
+  place-items: end center !important;
+  width: min(158px, 100%) !important;
+  height: auto !important;
+  max-width: none !important;
+  aspect-ratio: 1 / 1.08 !important;
+  margin: 0 !important;
+  border-radius: 22px !important;
+  border: 1px solid rgba(94, 73, 56, 0.12) !important;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 253, 248, 0.95), rgba(232, 239, 229, 0.72) 62%, rgba(218, 208, 191, 0.72)) !important;
+  box-shadow: 0 14px 26px rgba(64, 45, 30, 0.13) !important;
+  overflow: hidden !important;
+}
+
+.t13-couple-modern .t13-couple-portrait img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  transform: none !important;
+}
+
+.t13-couple-modern .t13-couple-text,
+.t13-couple-modern .t13-couple-text-right {
+  grid-area: copy;
+  width: 100%;
+  max-width: none;
+  align-self: start;
+  justify-self: stretch !important;
+  text-align: left !important;
+}
+
+.t13-couple-modern .t13-bride-profile .t13-couple-text {
+  text-align: right !important;
+}
+
+.t13-couple-modern .t13-couple-name {
+  font-size: clamp(18px, 4.2vw, 30px) !important;
+  letter-spacing: 0.055em !important;
+  line-height: 1.08 !important;
+  overflow-wrap: anywhere;
+}
+
+.t13-couple-modern .t13-couple-desc {
+  margin-top: 7px !important;
+  font-size: clamp(10px, 2.3vw, 13px) !important;
+  line-height: 1.45 !important;
+}
+
+.t13-couple-modern .t13-couple-pair .t13-couple-amp {
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 16px !important;
+}
+
+.t13-couple-modern .t13-couple-pair .t13-couple-amp::before,
+.t13-couple-modern .t13-couple-pair .t13-couple-amp::after {
+  width: min(76px, 22vw) !important;
+}
+
+@media (min-width: 760px) {
+  .t13-couple-modern .t13-couple-pair {
+    grid-template-columns: minmax(0, 1fr) clamp(38px, 5vw, 52px) minmax(0, 1fr) !important;
+    gap: clamp(12px, 2vw, 20px) !important;
+  }
+
+  .t13-couple-modern .t13-couple-profile {
+    grid-template-columns: minmax(128px, 36%) minmax(0, 1fr) !important;
+    min-height: 180px !important;
+  }
+
+  .t13-couple-modern .t13-bride-profile {
+    grid-template-columns: minmax(0, 1fr) minmax(128px, 36%) !important;
+  }
+
+  .t13-couple-modern .t13-couple-portrait {
+    width: min(176px, 100%) !important;
+  }
+
+  .t13-couple-modern .t13-couple-pair .t13-couple-amp {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-couple-modern .t13-couple-card {
+    padding: 14px 10px 16px !important;
+  }
+
+  .t13-couple-modern .t13-couple-modern-sub {
+    display: none;
+  }
+
+  .t13-couple-modern .t13-couple-profile {
+    grid-template-columns: minmax(102px, 35%) minmax(0, 1fr) !important;
+    column-gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  .t13-couple-modern .t13-bride-profile {
+    grid-template-columns: minmax(0, 1fr) minmax(102px, 35%) !important;
+  }
+
+  .t13-couple-modern .t13-couple-portrait {
+    width: min(124px, 100%) !important;
+    border-radius: 18px !important;
+  }
+
+  .t13-couple-modern .t13-couple-name {
+    font-size: clamp(16px, 4.7vw, 20px) !important;
+  }
+
+  .t13-couple-modern .t13-couple-desc {
+    font-size: clamp(9px, 2.65vw, 10px) !important;
+  }
+}
+
+/* Make the landscape groom artwork feel as present as the bride portrait. */
+.t13-couple-modern .t13-groom-art img {
+  transform: scale(1.44) translateY(3%) !important;
+  transform-origin: center bottom;
+}
+
+@media (min-width: 760px) {
+  .t13-couple-modern .t13-groom-art img {
+    transform: scale(1.48) translateY(4%) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-couple-modern .t13-groom-art img {
+    transform: scale(1.42) translateY(3%) !important;
+  }
+}
+
+/* Moments section: larger transparent photo strip without the white card frame. */
+.t13-photo-section .t13-story-header {
+  margin-bottom: 4px !important;
+}
+
+.t13-photo-section .t13-photo-row {
+  width: min(460px, 98%) !important;
+  grid-template-columns: minmax(178px, 1.08fr) minmax(0, 1fr) !important;
+  gap: clamp(12px, 3vw, 20px) !important;
+  align-items: center !important;
+}
+
+.t13-photo-section .t13-photo-square {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.t13-photo-section .t13-photo-square img {
+  width: min(230px, 112%) !important;
+  max-width: none !important;
+  aspect-ratio: auto !important;
+  border-radius: 0 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: transparent !important;
+  filter: drop-shadow(0 12px 16px rgba(62, 42, 25, 0.14));
+}
+
+@media (min-width: 900px) {
+  .t13-photo-section .t13-photo-row {
+    width: min(500px, 100%) !important;
+    grid-template-columns: minmax(220px, 1.05fr) minmax(0, 1fr) !important;
+  }
+
+  .t13-photo-section .t13-photo-square img {
+    width: min(260px, 116%) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-photo-section .t13-photo-row {
+    width: 100% !important;
+    grid-template-columns: minmax(144px, 43%) minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .t13-photo-section .t13-photo-square img {
+    width: min(188px, 118%) !important;
+  }
+
+  .t13-photo-section .t13-photo-verttext {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* Denser illustration layout: reduce empty canvas feeling in visual sections. */
+.t13-words-section {
+  margin-top: clamp(18px, 4vw, 34px) !important;
+}
+
+.t13-words-panel {
+  gap: clamp(8px, 2.4vw, 24px) !important;
+  padding: clamp(12px, 2.6vw, 24px) !important;
+}
+
+.t13-words-panel::before {
+  inset: 8px !important;
+}
+
+.t13-quote-art {
+  gap: 6px !important;
+  align-self: stretch;
+  align-content: center;
+}
+
+.t13-quote-photo {
+  width: min(430px, 100%) !important;
+  max-width: none !important;
+  aspect-ratio: 1 / 1.04 !important;
+  margin: -4px auto -2px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.t13-quote-photo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 0 !important;
+  transform: scale(1.24) translateY(1%) !important;
+  transform-origin: center center;
+}
+
+.t13-art-caption {
+  margin: -4px auto 10px !important;
+  padding: 7px 12px !important;
+  position: relative;
+  z-index: 2;
+}
+
+.t13-words-copy {
+  gap: 7px !important;
+}
+
+.t13-words-title {
+  font-size: clamp(28px, 5.4vw, 44px) !important;
+}
+
+.t13-quote-text {
+  padding-top: 10px !important;
+  font-size: clamp(13px, 1.85vw, 16px) !important;
+  line-height: 1.58 !important;
+}
+
+.t13-photo-section {
+  gap: clamp(10px, 2.4vw, 18px) !important;
+  padding: clamp(14px, 2.8vw, 20px) !important;
+}
+
+.t13-photo-section .t13-story-header {
+  justify-items: center !important;
+  margin-bottom: clamp(8px, 2vw, 14px) !important;
+}
+
+.t13-story-spotlight {
+  margin-top: 0 !important;
+}
+
+.t13-photo-wide {
+  display: grid !important;
+  place-items: center !important;
+  width: min(360px, 100%) !important;
+  max-width: none !important;
+  aspect-ratio: 1 / 0.94 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.t13-photo-wide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: 0 !important;
+  transform: scale(1.34) translateY(1%) !important;
+  transform-origin: center center;
+}
+
+.t13-photo-section .t13-photo-row {
+  margin-top: -14px !important;
+  grid-template-columns: minmax(174px, 46%) minmax(0, 1fr) !important;
+  gap: clamp(8px, 2vw, 14px) !important;
+}
+
+.t13-photo-section .t13-paper-card {
+  margin-top: clamp(16px, 3vw, 28px) !important;
+}
+
+.t13-photo-section .t13-photo-square img {
+  width: min(250px, 124%) !important;
+}
+
+.t13-photo-section .t13-photo-verttext {
+  font-size: clamp(10px, 1.9vw, 13px) !important;
+  line-height: 1.48 !important;
+}
+
+@media (min-width: 900px) {
+  .t13-quote-photo {
+    width: min(460px, 100%) !important;
+  }
+
+  .t13-photo-wide {
+    width: min(390px, 100%) !important;
+  }
+
+  .t13-photo-section .t13-photo-row {
+    margin-top: -18px !important;
+    grid-template-columns: minmax(224px, 48%) minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 899px) {
+  .t13-words-panel {
+    gap: clamp(10px, 3vw, 16px) !important;
+  }
+
+  .t13-quote-art {
+    margin-bottom: 6px !important;
+  }
+
+  .t13-quote-photo {
+    width: min(370px, 100%) !important;
+    aspect-ratio: 1 / 1 !important;
+    margin-top: -8px !important;
+  }
+
+  .t13-words-copy {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-words-panel {
+    padding: 10px 10px 14px !important;
+  }
+
+  .t13-quote-photo {
+    width: min(310px, 100%) !important;
+    margin-bottom: -2px !important;
+  }
+
+  .t13-quote-photo img {
+    transform: scale(1.30) translateY(1%) !important;
+  }
+
+  .t13-art-caption {
+    margin: -6px auto 12px !important;
+    font-size: 8px !important;
+  }
+
+  .t13-photo-section {
+    padding: 12px 10px 14px !important;
+    gap: 10px !important;
+  }
+
+  .t13-photo-wide {
+    width: min(292px, 100%) !important;
+    aspect-ratio: 1 / 0.9 !important;
+  }
+
+  .t13-photo-wide img {
+    transform: scale(1.42) translateY(2%) !important;
+  }
+
+  .t13-photo-section .t13-photo-row {
+    margin-top: -20px !important;
+    grid-template-columns: minmax(146px, 46%) minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .t13-photo-section .t13-photo-square img {
+    width: min(204px, 126%) !important;
+  }
+}
+
+/* Quick RSVP access: sits in the page flow, not with the floating controls. */
+.t13-rsvp-rail {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 58px;
+  margin: 0 0 14px;
+  padding: 10px 4px 12px;
+  border-top: 1px solid rgba(110, 31, 31, 0.18);
+  border-bottom: 1px solid rgba(111, 123, 97, 0.20);
+  color: #3a2e22;
+}
+
+.t13-rsvp-rail::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(143, 42, 42, 0), rgba(143, 42, 42, 0.26), rgba(111, 123, 97, 0));
+}
+
+.t13-rsvp-rail-copy {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.t13-rsvp-rail-date {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 26px;
+  padding: 5px 9px;
+  border: 1px solid rgba(111, 123, 97, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.58);
+  color: #6f7b61;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.t13-rsvp-rail-names {
+  min-width: 0;
+  overflow: hidden;
+  color: #6e1f1f;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.t13-rsvp-jump {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 106px;
+  min-height: 40px;
+  padding: 9px 15px;
+  border: 1px solid rgba(110, 31, 31, 0.28);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(110, 31, 31, 0.98), rgba(143, 42, 42, 0.92));
+  color: #fffaf3;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 0 12px 24px rgba(82, 42, 28, 0.16);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.t13-rsvp-jump:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 16px 28px rgba(82, 42, 28, 0.20);
+}
+
+.t13-rsvp-jump:focus-visible {
+  outline: 3px solid rgba(111, 123, 97, 0.34);
+  outline-offset: 3px;
+}
+
+#rsvp {
+  scroll-margin-top: 24px;
+}
+
+@media (min-width: 900px) {
+  .t13-rsvp-rail {
+    margin-bottom: 18px;
+    padding: 12px 8px 14px;
+  }
+
+  .t13-rsvp-rail-names {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-rsvp-rail {
+    gap: 10px;
+    min-height: 54px;
+    margin-bottom: 12px;
+    padding: 8px 0 10px;
+  }
+
+  .t13-rsvp-rail-copy {
+    display: grid;
+    gap: 4px;
+  }
+
+  .t13-rsvp-rail-date {
+    width: fit-content;
+    min-height: 22px;
+    padding: 4px 8px;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .t13-rsvp-rail-names {
+    font-size: 17px;
+  }
+
+  .t13-rsvp-jump {
+    min-width: 88px;
+    min-height: 38px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+
+.t13-hero-rsvp {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.t13-hero-rsvp-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.t13-hero-rsvp .t13-hero-rsvp-button {
+  min-width: min(314px, 100%);
+  min-height: 58px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 250, 243, 0.34);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 250, 243, 0.30), transparent 32%),
+    linear-gradient(135deg, #5f1c1c 0%, #8f2a2a 58%, #6f7b61 135%);
+  font-family: Inter, system-ui, sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    0 18px 34px rgba(82, 42, 28, 0.18);
+}
+
+.t13-hero-rsvp-button::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 250, 243, 0.16);
+}
+
+.t13-hero-rsvp-button::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  bottom: -60%;
+  left: -38%;
+  z-index: -1;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255, 250, 243, 0.20), transparent);
+  transform: rotate(18deg);
+  transition: left 0.55s ease;
+}
+
+.t13-rsvp-icon,
+.t13-rsvp-arrow {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.t13-rsvp-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 250, 243, 0.95);
+  color: #6e1f1f;
+  box-shadow: 0 10px 18px rgba(50, 24, 18, 0.15);
+}
+
+.t13-rsvp-button-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.t13-rsvp-button-kicker {
+  color: rgba(255, 250, 243, 0.72);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.t13-rsvp-button-label {
+  color: #fffaf3;
+  font-family: "Cormorant Garamond", "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: none;
+}
+
+.t13-rsvp-arrow {
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  background: rgba(255, 250, 243, 0.14);
+  color: #fffaf3;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.t13-hero-rsvp .t13-hero-rsvp-button span {
+  white-space: nowrap;
+}
+
+.t13-hero-rsvp-button:hover::after {
+  left: 110%;
+}
+
+.t13-hero-rsvp-button:hover .t13-rsvp-arrow {
+  background: rgba(255, 250, 243, 0.22);
+  transform: translateX(2px);
+}
+
+@media (min-width: 900px) {
+  .t13-hero-rsvp {
+    grid-column: 1;
+    justify-content: flex-start;
+    margin-top: 22px;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-hero-rsvp {
+    margin-top: 17px;
+  }
+
+  .t13-hero-rsvp .t13-hero-rsvp-button {
+    min-width: min(292px, 100%);
+    min-height: 54px;
+    gap: 10px;
+    padding: 7px 8px;
+  }
+
+  .t13-rsvp-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .t13-rsvp-button-kicker {
+    font-size: 8px;
+    letter-spacing: 0.19em;
+  }
+
+  .t13-rsvp-button-label {
+    font-size: 21px;
+  }
+
+  .t13-rsvp-arrow {
+    width: 31px;
+    height: 31px;
+  }
+}
+
+/* Mobile action dock: keep every utility visible without stacking over the hero. */
+@media (max-width: 640px) {
+  .t13-container {
+    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .t13-fab {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    padding: 7px !important;
+    border: 1px solid rgba(255, 250, 243, 0.22);
+    border-radius: 24px;
+    background: rgba(35, 28, 23, 0.72);
+    box-shadow: 0 16px 34px rgba(40, 26, 18, 0.22);
+    backdrop-filter: blur(16px);
+  }
+
+  .t13-fab > .t13-btn,
+  .t13-music-reveal {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    padding: 6px 4px !important;
+    border: 1px solid rgba(255, 250, 243, 0.16) !important;
+    border-radius: 18px !important;
+    background: rgba(255, 250, 243, 0.10) !important;
+    box-shadow: none !important;
+    color: #fffaf3 !important;
+    font-family: Inter, system-ui, sans-serif !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  .t13-fab > .t13-btn.is-active {
+    border-color: rgba(255, 250, 243, 0.34) !important;
+    background:
+      linear-gradient(135deg, rgba(143, 42, 42, 0.86), rgba(111, 123, 97, 0.54)) !important;
+  }
+
+  .t13-fab > .t13-btn svg,
+  .t13-music-reveal svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 auto;
+  }
+
+  .t13-fab > .t13-btn span,
+  .t13-music-reveal span {
+    display: block !important;
+    max-width: 100%;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .t13-music-control {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    border: 1px solid rgba(255, 250, 243, 0.16) !important;
+    border-radius: 18px !important;
+    background: rgba(255, 250, 243, 0.10) !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  .t13-music-control.is-playing,
+  .t13-music-control.is-off {
+    background: rgba(255, 250, 243, 0.10) !important;
+    opacity: 1 !important;
+  }
+
+  .t13-music-control.is-playing {
+    border-color: rgba(255, 250, 243, 0.34) !important;
+    background:
+      linear-gradient(135deg, rgba(143, 42, 42, 0.82), rgba(111, 123, 97, 0.48)) !important;
+  }
+
+  .t13-music-control::before {
+    content: none !important;
+  }
+
+  .t13-music-btn {
+    min-height: 48px !important;
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    gap: 4px !important;
+    padding: 6px 4px !important;
+    text-align: center !important;
+  }
+
+  .t13-music-disc {
+    width: 20px !important;
+    height: 20px !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .t13-music-disc svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .t13-music-copy {
+    justify-items: center !important;
+    gap: 0 !important;
+  }
+
+  .t13-music-label {
+    color: #fffaf3 !important;
+    font-family: Inter, system-ui, sans-serif !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1 !important;
+  }
+
+  .t13-music-title,
+  .t13-music-hide-btn {
+    display: none !important;
+  }
+
+  .t13-echeckin {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 118px) !important;
+  }
+
+  .t13-gift-popup {
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+  }
+
+  .t13-hero-rsvp .t13-hero-rsvp-button {
+    min-width: min(270px, 100%) !important;
+    min-height: 50px !important;
+    gap: 9px !important;
+    padding: 7px 8px !important;
+  }
+
+  .t13-rsvp-icon {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .t13-rsvp-button-kicker {
+    font-size: 7px !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .t13-rsvp-button-label {
+    font-size: 20px !important;
+  }
+
+  .t13-rsvp-arrow {
+    width: 29px !important;
+    height: 29px !important;
   }
 }
