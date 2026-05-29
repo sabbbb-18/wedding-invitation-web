@@ -4513,3 +4513,218 @@ body {
     height: 29px !important;
   }
 }
+
+/* Final moments section redesign: one editorial composition for both portraits. */
+.t13-photo-section {
+  display: block !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  justify-self: center !important;
+  position: relative;
+  padding: clamp(16px, 4vw, 24px) !important;
+  border: 1px solid rgba(112, 83, 58, 0.16) !important;
+  border-radius: clamp(22px, 5vw, 30px) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.90) 0%, rgba(232, 239, 229, 0.62) 56%, rgba(247, 237, 225, 0.86) 100%) !important;
+  box-shadow: 0 26px 58px rgba(70, 50, 34, 0.13) !important;
+  overflow: hidden !important;
+}
+
+.t13-photo-section::before {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border: 1px solid rgba(112, 83, 58, 0.10);
+  border-radius: calc(clamp(22px, 5vw, 30px) - 9px);
+  pointer-events: none;
+}
+
+.t13-photo-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.t13-photo-section .t13-story-header {
+  display: flex !important;
+  justify-content: center !important;
+  margin: 0 0 clamp(10px, 2.6vw, 16px) !important;
+  text-align: center !important;
+}
+
+.t13-photo-section .t13-section-kicker {
+  width: fit-content;
+  padding: 7px 12px;
+  border: 1px solid rgba(110, 31, 31, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.70);
+  color: #6e1f1f;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.22em;
+  line-height: 1;
+}
+
+.t13-moments-frame {
+  display: grid;
+  gap: clamp(8px, 2.3vw, 12px);
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.t13-photo-section .t13-story-spotlight {
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: clamp(10px, 2.6vw, 14px) clamp(10px, 3vw, 18px) 0 !important;
+  border: 1px solid rgba(112, 83, 58, 0.12);
+  border-radius: 24px 24px 18px 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.62), rgba(255, 253, 248, 0.16));
+  overflow: visible !important;
+}
+
+.t13-photo-section .t13-photo-wide,
+.t13-photo-section .t13-photo-square {
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.t13-photo-section .t13-photo-wide img,
+.t13-photo-section .t13-photo-square img {
+  display: block !important;
+  max-width: 100% !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+}
+
+.t13-photo-section .t13-photo-wide img {
+  width: 100% !important;
+  height: clamp(310px, 52vw, 390px) !important;
+  filter: drop-shadow(0 16px 18px rgba(60, 42, 28, 0.12)) !important;
+}
+
+.t13-photo-section .t13-photo-row {
+  display: grid !important;
+  grid-template-columns: minmax(116px, 0.42fr) minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: clamp(10px, 2.6vw, 14px) !important;
+  width: 100% !important;
+  max-width: 430px !important;
+  margin: -2px auto 0 !important;
+  padding: clamp(9px, 2.4vw, 12px) !important;
+  border: 1px solid rgba(112, 83, 58, 0.13) !important;
+  border-radius: 22px !important;
+  background: rgba(255, 253, 248, 0.80) !important;
+  box-shadow: 0 16px 30px rgba(70, 50, 34, 0.10) !important;
+}
+
+.t13-photo-section .t13-photo-square img {
+  width: 100% !important;
+  height: clamp(156px, 28vw, 220px) !important;
+  filter: drop-shadow(0 12px 15px rgba(60, 42, 28, 0.13)) !important;
+}
+
+.t13-photo-section .t13-photo-verttext {
+  min-width: 0;
+  padding-left: clamp(10px, 2.4vw, 14px) !important;
+  border-left: 1px solid rgba(110, 31, 31, 0.16);
+  color: #3a2e22 !important;
+  font-family: "Special Elite", "Times New Roman", serif !important;
+  font-size: clamp(11px, 2vw, 13px) !important;
+  font-weight: 700 !important;
+  line-height: 1.58 !important;
+  letter-spacing: 0 !important;
+  text-align: left !important;
+}
+
+.t13-photo-section .t13-paper-card {
+  width: 100% !important;
+  max-width: 430px !important;
+  margin: clamp(10px, 2.6vw, 14px) auto 0 !important;
+  padding: clamp(13px, 3vw, 17px) clamp(14px, 3.5vw, 18px) !important;
+  border: 1px solid rgba(112, 83, 58, 0.14) !important;
+  border-radius: 20px !important;
+  background-color: rgba(255, 253, 248, 0.74) !important;
+  box-shadow: none !important;
+}
+
+.t13-photo-section .t13-paper-date {
+  font-size: clamp(16px, 4.5vw, 21px) !important;
+}
+
+@media (min-width: 900px) {
+  .t13-photo-section {
+    max-width: 540px !important;
+  }
+
+  .t13-photo-section .t13-photo-wide img {
+    height: 390px !important;
+  }
+
+  .t13-photo-section .t13-photo-square img {
+    height: 220px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .t13-photo-section {
+    padding: 13px 11px 15px !important;
+  }
+
+  .t13-photo-section::before {
+    inset: 8px;
+  }
+
+  .t13-photo-section .t13-section-kicker {
+    font-size: 8px;
+    letter-spacing: 0.20em;
+  }
+
+  .t13-photo-section .t13-story-spotlight {
+    border-radius: 20px 20px 16px 16px;
+    padding: 8px 8px 0 !important;
+  }
+
+  .t13-photo-section .t13-photo-wide img {
+    height: clamp(292px, 82vw, 320px) !important;
+  }
+
+  .t13-photo-section .t13-photo-row {
+    grid-template-columns: minmax(104px, 40%) minmax(0, 1fr) !important;
+    gap: 9px !important;
+    padding: 9px !important;
+    border-radius: 18px !important;
+  }
+
+  .t13-photo-section .t13-photo-square img {
+    height: clamp(146px, 43vw, 174px) !important;
+  }
+
+  .t13-photo-section .t13-photo-verttext {
+    padding-left: 9px !important;
+    font-size: 10px !important;
+    line-height: 1.48 !important;
+  }
+
+  .t13-photo-section .t13-paper-card {
+    border-radius: 17px !important;
+    padding: 12px 13px 14px !important;
+  }
+}

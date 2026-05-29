@@ -16,7 +16,7 @@ const IMAGE_PATHS = {
   ceremony: "", // masukan path gambar baru disini (foto acara), kosongkan kalau belum ada
   defaultQR: "", // masukan path gambar baru disini (fallback QR), kosongkan kalau belum ada
   momentsTop: "/images/fixtiga.png", // masukan path gambar baru disini (frame foto atas di section foto)
-  momentsBottom: "/images/potobox.png" // masukan path gambar baru disini (frame foto bawah di section foto)
+  momentsBottom: "/images/gantipotobox.png" // masukan path gambar baru disini (frame foto bawah di section foto)
 };
 
 // Couple / Venue text - edit here if needed
@@ -593,7 +593,7 @@ export default function InvitationPage() {
                     <br />
                     Bpk. Cholifah Holid
                     <br />
-                    & Ibu Tjutrahmawti
+                    & Ibu Tjut Rahmawati
                   </div>
                 </div>
               </article>
@@ -715,17 +715,19 @@ export default function InvitationPage() {
             <div className="t13-story-header">
               <div className="t13-section-kicker">THE TWO OF US</div>
             </div>
-            <div className="t13-story-spotlight">
-              <div className="t13-photo-wide">
-                <img src={IMAGE_PATHS.momentsTop} alt="moment wide" />
+            <div className="t13-moments-frame">
+              <div className="t13-story-spotlight">
+                <div className="t13-photo-wide">
+                  <img src={IMAGE_PATHS.momentsTop} alt="moment wide" />
+                </div>
               </div>
-            </div>
-            <div className="t13-photo-row">
-              <div className="t13-photo-square">
-                <img src={IMAGE_PATHS.momentsBottom} alt="moment square" />
-              </div>
-              <div className="t13-photo-verttext">
-                Setiap langkah kecil membawa kami pada hari yang kami syukuri bersama keluarga dan sahabat.
+              <div className="t13-photo-row">
+                <div className="t13-photo-square">
+                  <img src={IMAGE_PATHS.momentsBottom} alt="moment square" />
+                </div>
+                <div className="t13-photo-verttext">
+                  Setiap langkah kecil membawa kami pada hari yang kami syukuri bersama keluarga dan sahabat.
+                </div>
               </div>
             </div>
             <div className="t13-paper-card">
